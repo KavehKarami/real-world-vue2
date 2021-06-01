@@ -6,30 +6,23 @@
 </template>
 
 <script>
-import axios from "axios";
+import api from "../services/EventService";
 import EventCard from "@/components/EventCard.vue";
 
 export default {
   components: {
     EventCard,
   },
-  methods: {
-    async getAllEvents() {
-      try {
-        const res = await axios.get("http://localhost:5000/events");
-        this.events = res.data;
-      } catch (e) {
-        console.log(e);
-      }
-    },
-  },
   data() {
     return {
-      events: undefined,
+      events: [],
     };
   },
   mounted() {
-    this.getAllEvents();
+    api
+      .getEvents()
+      .then((res) => (this.events = res.data))
+      .catch((e) => console.log(e));
   },
 };
 </script>
